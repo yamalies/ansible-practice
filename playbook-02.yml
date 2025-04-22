@@ -1,0 +1,21 @@
+- name: Deploy Web Application
+  hosts: web_servers
+  become: yes
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Create installation directory
+      ansible.builtin.file:
+        path: "{{ install_dir }}"
+        state: directory
+
+    - name: Download application package
+      ansible.builtin.get_url:
+        url: "https://github.com/{{ username }}/ansible-practice/archive/refs/heads/{{ branchname }}.zip"
+        dest: "/tmp/{{ filename }}.zip"
+
+    - name: Extract application package
+      ansible.builtin.unarchive:
+        src: "/tmp/{{ filename }}.zip"
+        dest: "{{ install_dir }}"
+        remote_src: yes

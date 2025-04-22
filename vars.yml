@@ -1,0 +1,5 @@
+username: "yamalies"
+branchname: "main"
+filename: "ansible-practice-main"
+install_dir: "/opt/{{ app_name }}"
+app_name: "webapp"  # Changed to a meaningful name for the app
