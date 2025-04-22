@@ -1,0 +1,3 @@
+# All web servers share these settings
+http_port: 80
+max_connections: 1000
