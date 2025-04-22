@@ -1,0 +1,25 @@
+# Error handling - ignore_errors, failed_when, debug
+
+---
+- name: Check and manage web server
+  hosts: localhost  # specify the target host or group
+  become: yes
+
+  tasks:
+    - name: Check if the web server is running
+      ansible.builtin.systemd:
+        name: nginx
+        state: started
+      ignore_errors: yes
+      register: nginx_status
+
+    - name: Debug nginx status
+      ansible.builtin.debug:
+        var: nginx_status
+      when: nginx_status.failed
+
+    - name: Create directory only if previous task failed
+      file:
+        path: /tmp/some_directory
+        state: directory
+      failed_when: nginx_status.failed == false
